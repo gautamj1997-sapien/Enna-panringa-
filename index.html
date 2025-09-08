@@ -5,224 +5,92 @@
   <title>Get To Know Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background: #fafafd;
+    html,body{margin:0;padding:0;font-family:sans-serif;background:#fafafd;}
+    .center{text-align:center;}
+    .container{max-width:400px;margin:18px auto;padding:10px;}
+    .btn{padding:8px 24px;margin:6px 4px;background:#009ffd;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:bold;outline:none;transition:background 0.21s,box-shadow 0.21s;}
+    .btn.secondary{background:#e52e71;}
+    .btn:disabled{cursor:not-allowed;opacity:0.6;box-shadow:none !important;background:#606c8d !important;}
+    .btn:active,.btn.animated{box-shadow:0 0 0 3px #e52e7133;background:#607be0 !important;}
+    h1,h2,h3{margin-bottom:14px;}
+    input,textarea{padding:7px;font-size:1rem;margin:7px 0;border-radius:7px;border:1px solid #c8c5d0;width:100%;box-sizing:border-box;}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0;}
+    .tile{width:90px;height:90px;background:#f6f6f8;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.28rem;box-shadow:0 2px 14px #ccc;position:relative;transition:background 0.3s,box-shadow 0.3s;}
+    .tile.flip{animation:flip 0.7s;}
+    @keyframes flip{0%{transform:rotateY(0deg);}50%{transform:rotateY(90deg);}100%{transform:rotateY(0deg);}}
+    .tile.x{background:#fbe5f8;border:3px solid #e52e71;}
+    .tile.o{background:#e6f8ff;border:3px solid #009ffd;}
+    .tile .mark{font-size:2rem;font-weight:bold;letter-spacing:2px;}
+    .footer{margin-top:14px;text-align:center;}
+    .modal{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(19,15,36,0.22);display:flex;align-items:center;justify-content:center;z-index:100;}
+    .modal-content{background:white;padding:36px 16px;border-radius:18px;min-width:230px;max-width:350px;box-shadow:0 4px 38px rgba(0,0,0,0.09);}
+    .confetti{pointer-events:none;position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:300;}
+    .header{margin-bottom:17px;}
+    .player{font-weight:bold;}
+    .firework-bg{background:radial-gradient(circle at 70% 40%,#e52e71 1%,#6a63ff 67%,#fff 100%);}
+    .pressed{animation:press 0.3s;}
+    @keyframes press{0%{transform:scale(1);}65%{transform:scale(0.95);}100%{transform:scale(1);}
     }
-    .center {
-      text-align: center;
-    }
-    .container {
-      max-width: 400px;
-      margin: 18px auto;
-      padding: 10px;
-    }
-    .btn {
-      padding: 8px 24px;
-      margin: 6px 4px;
-      background: #009ffd;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      outline: none;
-      transition: background 0.21s, box-shadow 0.21s;
-    }
-    .btn.secondary {
-      background: #e52e71;
-    }
-    .btn:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-      box-shadow: none !important;
-      background: #606c8d !important;
-    }
-    .btn:active,
-    .btn.animated {
-      box-shadow: 0 0 0 3px #e52e7133;
-      background: #607be0 !important;
-    }
-    h1,
-    h2,
-    h3 {
-      margin-bottom: 14px;
-    }
-    input,
-    textarea {
-      padding: 7px;
-      font-size: 1rem;
-      margin: 7px 0;
-      border-radius: 7px;
-      border: 1px solid #c8c5d0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 24px 0;
-    }
-    .tile {
-      width: 90px;
-      height: 90px;
-      background: #f6f6f8;
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.28rem;
-      box-shadow: 0 2px 14px #ccc;
-      position: relative;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    .tile.flip {
-      animation: flip 0.7s;
-    }
-    @keyframes flip {
-      0% {
-        transform: rotateY(0deg);
-      }
-      50% {
-        transform: rotateY(90deg);
-      }
-      100% {
-        transform: rotateY(0deg);
-      }
-    }
-    .tile.x {
-      background: #fbe5f8;
-      border: 3px solid #e52e71;
-    }
-    .tile.o {
-      background: #e6f8ff;
-      border: 3px solid #009ffd;
-    }
-    .tile .mark {
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-    .footer {
-      margin-top: 14px;
-      text-align: center;
-    }
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(19, 15, 36, 0.22);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-    .modal-content {
-      background: white;
-      padding: 36px 16px;
-      border-radius: 18px;
-      min-width: 230px;
-      max-width: 350px;
-      box-shadow: 0 4px 38px rgba(0, 0, 0, 0.09);
-    }
-    .confetti {
-      pointer-events: none;
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 300;
-    }
-    .header {
-      margin-bottom: 17px;
-    }
-    .player {
-      font-weight: bold;
-    }
-    .firework-bg {
-      background: radial-gradient(
-        circle at 70% 40%,
-        #e52e71 1%,
-        #6a63ff 67%,
-        #fff 100%
-      );
-    }
-    .pressed {
-      animation: press 0.3s;
-    }
-    @keyframes press {
-      0% {
-        transform: scale(1);
-      }
-      65% {
-        transform: scale(0.95);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-    @media (max-width: 475px) {
-      .container {
-        max-width: 97vw;
-      }
-      .tile {
-        width: 66px;
-        height: 66px;
-        font-size: 0.95rem;
-      }
-      .modal-content {
-        max-width: 95vw;
-      }
+    @media (max-width:475px){
+      .container{max-width:97vw}
+      .tile{width:66px;height:66px;font-size:0.95rem;}
+      .modal-content{max-width:95vw;}
     }
   </style>
 </head>
 <body>
   <div id="main"></div>
-
   <script>
-    /************ CONFIG & DATA ***************/
+    // ----- QUESTIONS: original set -----
     const GAME_SIZE = 9;
     const HISTORY_KEY = "gtng_history";
     const QUESTIONS = [
+      // Original questions you provided
       "Which Tamil comedy scene always makes you laugh? 🤣",
       "If you could only use three emojis for the rest of the week, what would they be? 😎🥲🤣",
       "Would you rather have unlimited popcorn 🍿 or unlimited ice cream 🍦 forever? Biryani irundirda atha sollirpinga, theriyum adaa options le vekale🤣",
       "What's the silliest thing you're scared about?",
       "If you had a pet parrot 🦜, what’s the funniest thing you’d teach it to say?",
       "Ungaluku Kamal Hassan oda fav movie and dialoge enna😉",
-      "What’s the weirdest food combo you actually enjoy? Idhu already solirkinga, Rasam rice le curds. Innonu solunga😁",
-      "What’s the funniest nickname you’ve ever had?🤪",
-      "What song do you ALWAYS sing when no one’s listening? Unga fav antu vechukla",
-      "Would you rather pick midnight bike/car ride 🚲 or a beach walk 🌊?",
-      "If you could swap lives with a Tamil movie character for one day, who would it be and why?",
-      "What’s the most random talent or trick you have?😉",
-      "What’s the most adventurous thing you’ve done?",
+      "What’s the weirdest food combo you actually enjoy? Rasam rice le curds antu erkanave solirkinga, try panle🤣.... apdiye innonu solinga",
+      "What’s the funniest nickname you’ve ever had, school le ila naa college le😋?",
+      "What song do you ALWAYS sing when no one’s listening? Pudicha song antu vechikla, something you'd sing or go back to listening when you're bored🎤",
+      "Would you rather pick midnight bike/car ride 🚲 or a beach walk 🌊? I love both, suprha irukum. You can only choose one",
+      "If you could swap lives with a Tamil movie character for one day, who would it be and why? Ideyu solirkinga, innoru thadave sollunga, why is more important",
+      "What’s the most random talent or trick you have? 🤹 Inda train station le announcements ila phone le engaged/not reachable/not answering messages la nallu theriyum😅",
+      "What’s the most adventurous thing you’ve done? River rafting tha🤧, yen katha anniki mudinchi antu nenache",
       "If you were in Bigg Boss house, how long would you survive?",
-      "What’s one childhood memory that shaped who you are today? Could be happy or sad moment",
+      "What’s one childhood memory that shaped who you are today? Neenga rmba feel panra oru moment, could happy or sad",
       "Neenga past ku poy oru naal marbdyu re-live panra vaypu kadacha, which day would it be?",
-      "What instantly makes you feel calm and safe? 🌸",
-      "What’s something small that gives you big happiness? things that you cherish the most",
-      "Who in your life has inspired you the most, and why? Idhu yaara irukum antu theriyu nenakiren, sollunga paakla",
+      "What instantly makes you feel calm and safe? 🌸 specifically that i need to know",
+      "What’s something small that gives you big happiness? Chinna chinna vishyangal tha but makes you happy / just smile😍",
+      "Who in your life has inspired you the most, and why? Idu yenaku theriyum nenkre, let's see if you'll surprise😁",
       "If you could go back in time and meet your younger self, avangluku enna solla virbvinga?",
-      "Do you prefer to express feelings through words 🎤, actions 🤝, or silence 🌙?",
+      "Do you prefer to express feelings through words 🎤, actions 🤝, or silence 🌙? Idaa rmba suspence ah iruku",
       "If your love story was a Tamil movie, what would the title be? 🎬💕",
       "What’s the sweetest thing you think I've observed or told you that made you feel special, even a little bit🫣?",
-      "If I was a character in your life’s movie, what role would I play? 😉",
+      "If I was a character in your life’s movie, what role would I play? 😉 Now this could be one of the questions I don't think I'm ready for the answer ana solunga plsss 🙏",
       "Enna nenakringa, do you think soulmates are destined, or do we create them?",
-      "What’s one thing you dream of doing with someone special someday? 🌌",
-      "What kind of moment makes your heart race the most? 💣",
-      "If the emotions you're feeling right now had a color, what color would yours be right now?🌈"
-      "When you feel really close to someone, what’s the little thing they do that makes you feel it most loved?😍"
+      "What’s one thing you dream of doing with someone special someday? 🌌, ungloda special moment with your person",
+      "What kind of moment makes your heart race the most? 💣 Mostly with excitement, Yenaku, when I'm try or plan something to make someone feel good, avangluku epdi urruku antu paakradu rmba exciting ah irrukum",
+      "If the emotions you're feeling right now had a color, what color would yours be right now?",
+      // Plus: fun childhood, attachment, love language, deep fears, safe space questions
+      "What’s a silly habit you had as a kid that still makes you smile when you think about it?",
+      "If your childhood self could see you now, what would they say or ask?",
+      "What’s one mischief or prank you pulled that you’ll never forget?",
+      "Who was your childhood hero (real or fictional), and why?",
+      "When you feel really close to someone, what’s the little thing they do that makes you feel it most?",
+      "Do you think you’re someone who needs a lot of hugs & closeness, or do you prefer your own space to recharge?",
+      "If your closest friend had to sum up your way of showing you care in one funny sentence, what would it be?",
+      "What’s your go-to way to cheer up a friend who’s down? (Gifts, words, gestures, silly dances?)",
+      "Which small act of kindness from others instantly melts your heart?",
+      "If you had a “friendship superpower,” what would it be? (Listening ninja? Snack sharer?)",
+      "What’s the most ridiculous fear you had as a kid that you secretly still find a little funny?",
+      "Is there a small, silly thing that you unexpectedly get nervous or scared about even now?",
+      "If you could have a safety bubble that protects you from one fear forever, which would you pick?",
+      "What’s your go-to “calm corner” in your mind when the world feels too much?",
+      "If you could build your dream cozy hideout, what three things absolutely would it have?",
+      "What’s the soundtrack of your safe, happy place? (Could be a song, noise, or silence!)"
     ];
 
     function getHistory() {
@@ -238,9 +106,9 @@
     function clearHistoryStorage() {
       localStorage.removeItem(HISTORY_KEY);
     }
-    /************ STATE MGMT ***************/
+
     let state = {
-      step: "greeting", // greeting, names, toss, game, answer, firework, complete
+      step: "greeting",
       players: ["", ""],
       inputNames: ["", ""],
       activePlayer: 0,
@@ -248,7 +116,7 @@
       tossCall: null,
       tossing: false,
       tossWinner: null,
-      grid: Array(GAME_SIZE).fill(null), // {qIdx,pIdx,answer}
+      grid: Array(GAME_SIZE).fill(null),
       questionIndexes: [],
       askedTiles: [],
       currentTile: null,
@@ -258,7 +126,7 @@
       gameDone: false,
       history: getHistory()
     };
-    /************ RENDERING / UI ***********/
+
     function render() {
       main.innerHTML = "";
       switch (state.step) {
@@ -358,15 +226,12 @@
           break;
       }
     }
-    // Button animated feedback + disables submit/cancel buttons briefly
     window.btnClick = function (fn, arg) {
       event.target.classList.add("pressed");
-      // Disable submit/cancel instantly when clicked
       const submitBtn = document.getElementById("submitBtn"),
         cancelBtn = document.getElementById("cancelBtn");
       if (submitBtn) submitBtn.disabled = true;
       if (cancelBtn) cancelBtn.disabled = true;
-      // Remove disabled & pressed animation after 1300ms
       setTimeout(() => {
         if (submitBtn) submitBtn.disabled = false;
         if (cancelBtn) cancelBtn.disabled = false;
@@ -376,7 +241,6 @@
         arg !== undefined ? fn(arg) : fn(), 90
       );
     };
-    // Inputs
     window.nameChange = function (i, val) {
       state.inputNames[i] = val;
       render();
@@ -393,7 +257,6 @@
       state.step = "answer";
       render();
     };
-    // Toss logic
     const TOSS_OPTIONS = ["Heads", "Tails"];
     window.flipToss = function (val) {
       state.tossCall = val;
@@ -442,7 +305,6 @@
       state.history = [];
       setStep("greeting");
     };
-    /************ UTILS ***************/
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -494,7 +356,6 @@
       }, 5000);
       return `<div style="position:relative;width:99vw;height:69vh;">${stars}</div>`;
     }
-    /************ GAME LOGIC ***********/
     window.setStep = function (s) {
       Object.assign(state, {
         step: s,
@@ -520,8 +381,6 @@
       }
       render();
     };
-
-    /************ INITIALIZE ***********/
     setStep(state.step);
   </script>
 </body>
